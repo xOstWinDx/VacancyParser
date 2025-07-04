@@ -29,8 +29,8 @@ class YandexVacancyValidator(AbstractVacancyValidator):
         normalized = unicodedata.normalize("NFKC", text)
         return normalized.lower().strip()
 
-    def validate(self, text: str) -> bool:
-        cleaned = self.normalize_text(text)
+    def validate(self, vacancy: Vacancy) -> bool:
+        cleaned = self.normalize_text(vacancy.text)
         if not (
                 self.python_pattern.search(cleaned) and
                 self.framework_pattern.search(cleaned) and
