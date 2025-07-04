@@ -34,7 +34,6 @@ class StartParsersUseCase:
             vacancy = self.vacancy_queue.get() # Бесконечно ждём новых сообщений
             logging.debug(f"Received message: {vacancy}")
             if not self.vacancy_validator.validate(vacancy):
-                logging.info(f"Vacancy {vacancy} is invalid")
                 continue
 
             try:

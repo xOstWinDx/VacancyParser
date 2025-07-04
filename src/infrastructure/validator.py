@@ -36,6 +36,7 @@ class YandexVacancyValidator(AbstractVacancyValidator):
                 self.framework_pattern.search(cleaned) and
                 not self.exclude_pattern.search(cleaned)
         ):
+            logging.info(f"Vacancy {vacancy} is invalid by regex")
             return False
 
         # Если регулярка прошла — проверяем через LLM
@@ -67,6 +68,7 @@ class YandexVacancyValidator(AbstractVacancyValidator):
         result = sdk.models.completions("llama-lite", model_version="latest").configure(temperature=0.3).run(messages)
         res = result[0].text.strip().lower().rstrip(".")
         if res == "yes":
+            logging.info(f"Vacancy: {vacancy} - valid!")
             return True
-        logging.info(f"Vacancy <{vacancy.text[:20]}> - is not Python (not matched by LLM)")
+        logging.info(f"Vacancy {vacancy} is invalid by LLM")
         return False
