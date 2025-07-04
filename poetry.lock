@@ -824,6 +824,27 @@ files = [
 all = ["flake8 (>=7.1.1)", "mypy (>=1.11.2)", "pytest (>=8.3.2)", "ruff (>=0.6.2)"]
 
 [[package]]
+name = "kurigram"
+version = "2.2.6"
+description = "Elegant, modern and asynchronous Telegram MTProto API framework in Python for users and bots"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "kurigram-2.2.6-py3-none-any.whl", hash = "sha256:0fd245a7117e2b6479149995857c81b93cb19979ddadcf3fc8063dca05465847"},
+    {file = "kurigram-2.2.6.tar.gz", hash = "sha256:15b64199a076c12b2c73915f66fb580294ea4ca6c1cba05f33e19a364a569d3d"},
+]
+
+[package.dependencies]
+pyaes = "<=1.6.1"
+pysocks = "<=1.7.1"
+
+[package.extras]
+dev = ["hatch (<=1.7.0)", "keyring (<=25.1.0)", "pytest (<=7.4.3)", "pytest-asyncio (<=0.21.1)", "pytest-cov (<=4.1.0)", "twine (<=4.0.2)"]
+docs = ["furo (<=2024.8.8)", "pygments (<=2.19.1)", "sphinx (<=8.2.3)", "sphinx-autobuild (<=2024.10.3)", "sphinx-copybutton (<=0.5.2)"]
+fast = ["tgcrypto (<=1.2.5)", "uvloop (<=0.21.0) ; sys_platform == \"darwin\" or sys_platform == \"linux\""]
+
+[[package]]
 name = "multidict"
 version = "6.6.3"
 description = "multidict implementation"
@@ -1301,6 +1322,27 @@ pyaes = "1.6.1"
 pysocks = "1.7.1"
 
 [[package]]
+name = "pyrotgfork"
+version = "2.2.12"
+description = "Fork of Pyrogram. Elegant, modern and asynchronous Telegram MTProto API framework in Python for users and bots"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "pyrotgfork-2.2.12-py3-none-any.whl", hash = "sha256:6d4c0909c86f567d2692312277a1d1f08bec3cdf8325b686b845fb8ab26fa41d"},
+    {file = "pyrotgfork-2.2.12.tar.gz", hash = "sha256:3244d8fdc0c335796af015c55b127b362fdae75a35f16286a9a8e82e6c693832"},
+]
+
+[package.dependencies]
+pyaes = "<=1.6.1"
+pysocks = "<=1.7.1"
+
+[package.extras]
+dev = ["hatch (<=1.7.0)", "keyring (<=25.1.0)", "pytest (<=7.4.3)", "pytest-asyncio (<=0.21.1)", "pytest-cov (<=4.1.0)", "twine (<=4.0.2)"]
+docs = ["furo (<=2023.9.10)", "pygments (<=2.17.2)", "sphinx (<=7.2.6)", "sphinx-autobuild (<=2021.3.14)", "sphinx-copybutton (<=0.5.2)"]
+fast = ["pytgcrypto (>1.2.9.2,<=1.4)", "uvloop (>0.18.0,<=0.19.0)"]
+
+[[package]]
 name = "pysocks"
 version = "1.7.1"
 description = "A Python SOCKS client module. See https://github.com/Anorov/PySocks for more information."
@@ -1767,4 +1809,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12, < 4.0"
-content-hash = "4f900171daee85a5132aeaac98f9b19a85b015ffbb9246bd41710c411dab42c6"
+content-hash = "31def826dacbe6fc20a966947e0826c87db372f882ed893ae285e14a5f6257ca"

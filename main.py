@@ -6,7 +6,10 @@ from src.infrastructure.parser import TelegramVacancyParser
 from src.infrastructure.validator import YandexVacancyValidator
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        level=logging.INFO
+    )
 
     use_case = StartParsersUseCase(
         class_parsers=(TelegramVacancyParser,),
