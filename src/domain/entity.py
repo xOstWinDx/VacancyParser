@@ -1,4 +1,3 @@
-import re
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -9,6 +8,10 @@ class Vacancy:
     title: str
     text: str
     publish_date: datetime
+
+    def __repr__(self):
+        return (f"Vacancy(source={self.source}, title={self.title}, text={self.text[:30]}, publish_dat"
+                f"e={self.publish_date})")
 
     def to_html(self) -> str:
         """Конвертирует вакансию в HTML формат для Telegram"""

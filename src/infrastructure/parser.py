@@ -2,7 +2,7 @@ import asyncio
 import logging
 from multiprocessing import Queue
 
-from pyrogram import Client, filters, raw
+from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from src.config import settings
@@ -22,14 +22,17 @@ class TelegramVacancyParser(AbstractVacancyParser):
         )
 
         @app.on_message(filters.all)
-        async def log_message(client: Client, message: Message):
+        async def handle_message(client: Client, message: Message):
             logging.info(
                 f"Received message: {message.chat.title}: {message.chat.id} - {message.text[:20]}... | "
                 f"allowed: {message.chat.id in settings.TELEGRAM_CHANNELS_IDS}"
+                if message.text is not None or message.chat is not None
+                else f"Received message with no text or chat: {message}"
             )
+            if message.chat is None or message.chat.id not in settings.TELEGRAM_CHANNELS_IDS :
+                logging.info("Message is not from allowed channel - ignoring")
+                return
 
-        @app.on_message(filters.chat(settings.TELEGRAM_CHANNELS_IDS))
-        async def handle_message(client: Client, message: Message):
             vacancy = Vacancy(
                 source=message.chat.title,
                 title=message.text[:message.text.find("\n") + 1],
