@@ -1,5 +1,6 @@
 import logging
 import re
+import unicodedata
 
 from yandex_cloud_ml_sdk import YCloudML
 
@@ -14,21 +15,27 @@ class TestVacancyValidator(AbstractVacancyValidator):
 
 
 class YandexVacancyValidator(AbstractVacancyValidator):
-    PYTHON_VACANCY_PATTERN = re.compile(
-        r"(?ix)"
-        r"(?:"
-        r"\b(?:python|питон|пайтон)\b.*?\b(?:backend|бекенд|разработчик|developer|программист|engineer)\b"
-        r"|"
-        r"\b(?:fastapi|django|flask|asyncio|aiohttp|sqlalchemy|pydantic|celery)\b"
-        r"|"
-        r"\b(?:postgresql|postgres|mysql|mongodb|kafka|redis|clickhouse)\b"
-        r")"
-        r"(?!.*\b(?:java\b|javascript\b|js\b|с\#|1с|1c|frontend|фронтенд|react|angular|vue)\b)"
+    python_pattern = re.compile(r'\b(python\s?\d*\.?\d*|py\s?\d*\.?\d*|питон|пайтон)\b', re.IGNORECASE)
+    framework_pattern = re.compile(r'\b(fastapi|django|flask)\b', re.IGNORECASE)
+    exclude_pattern = re.compile(
+        r'\b(java(script)?|js|c\#|1с|1c|frontend|фронтенд|front[\s\-]?end|'
+        r'react|angular|vue|data\s*science|datascience|pandas|numpy|tensorflow|'
+        r'machine\s*learning|ml|аналитик|ai)\b',
+        re.IGNORECASE
     )
 
-    def validate(self, vacancy: Vacancy) -> bool:
-        if not self.PYTHON_VACANCY_PATTERN.search(vacancy.text):
-            logging.info(f"Vacancy <{vacancy.text[:20]}>  - is not Python (not matched by pattern)")
+    @staticmethod
+    def normalize_text(text: str) -> str:
+        normalized = unicodedata.normalize("NFKC", text)
+        return normalized.lower().strip()
+
+    def validate(self, text: str) -> bool:
+        cleaned = self.normalize_text(text)
+        if not (
+                self.python_pattern.search(cleaned) and
+                self.framework_pattern.search(cleaned) and
+                not self.exclude_pattern.search(cleaned)
+        ):
             return False
 
         # Если регулярка прошла — проверяем через LLM

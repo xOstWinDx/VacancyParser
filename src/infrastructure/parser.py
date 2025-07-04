@@ -23,15 +23,16 @@ class TelegramVacancyParser(AbstractVacancyParser):
 
         @app.on_message(filters.all)
         async def handle_message(client: Client, message: Message):
-            logging.info(
-                f"Received message: {message.chat.title}: {message.chat.id} - {message.text[:20]}... | "
-                f"allowed: {message.chat.id in settings.TELEGRAM_CHANNELS_IDS}"
-                if message.text is not None or message.chat is not None
-                else f"Received message with no text or chat: {message}"
-            )
-            if message.chat is None or message.chat.id not in settings.TELEGRAM_CHANNELS_IDS :
-                logging.info("Message is not from allowed channel - ignoring")
+            if message.text is None or message.chat is None:
+                logging.info(f"Received message with no text or chat: {message}")
                 return
+            if message.chat.id not in settings.TELEGRAM_CHANNELS_IDS:
+                logging.info(f"Received message from disallowed channel: {message}")
+                return
+
+            logging.info(
+                f"Received message: {message.chat.title}: {message.chat.id} - {message.text[:20]}..."
+            )
 
             vacancy = Vacancy(
                 source=message.chat.title,
